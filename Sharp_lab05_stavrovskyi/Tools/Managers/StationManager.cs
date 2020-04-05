@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Sharp_lab05_stavrovskyi.Models;
 
 namespace Sharp_lab05_stavrovskyi.Tools.Managers
@@ -17,6 +14,8 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
 
         private static List<MyProcess> _processList = new List<MyProcess>();
 
+        private static MyProcess _selectedProcess;
+
         //internal static Person CurrentUser { get; set; }
 
         internal static List<MyProcess> ProcessList
@@ -25,6 +24,15 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
             {
                 return _processList;
             }
+        }
+
+        internal static MyProcess SelectedProcess
+        {
+            get
+            {
+                return _selectedProcess; 
+            }
+            set { _selectedProcess = value; }
         }
 
         internal static void Initialize()

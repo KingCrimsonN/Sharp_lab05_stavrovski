@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Sharp_lab05_stavrovskyi.Models
 {
-    class MyProcess
+    internal class MyProcess
     {
         #region Fields
 
@@ -77,6 +77,16 @@ namespace Sharp_lab05_stavrovskyi.Models
         public string FilePath
         {
             get { return _filePath; }
+        }
+
+        public ProcessModuleCollection ModuleCollection
+        {
+            get { return _process.Modules; }
+        }
+
+        public ProcessThreadCollection ThreadCollection
+        {
+            get { return _process.Threads; }
         }
 
         #endregion

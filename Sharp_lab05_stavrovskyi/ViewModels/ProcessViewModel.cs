@@ -1,15 +1,15 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows;
 using Sharp_lab05_stavrovskyi.Models;
 using Sharp_lab05_stavrovskyi.Tools;
 using Sharp_lab05_stavrovskyi.Tools.Managers;
+using Sharp_lab05_stavrovskyi.Views;
 
 namespace Sharp_lab05_stavrovskyi.ViewModels
 {
-    class ProcessViewModel : INotifyPropertyChanged
+    class ProcessViewModel : BaseViewModel
     {
         #region Fields
 
@@ -20,6 +20,8 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
         private readonly CancellationTokenSource _tokenSource;
 
         private RelayCommand<object> _endTask;
+        private RelayCommand<object> _showModulesCommand;
+        private RelayCommand<object> _showThreadsCommand;
         #endregion
 
         #region Properties
@@ -41,6 +43,7 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             {
 
                 _selectedProcess = value;
+                StationManager.SelectedProcess = value;
                 OnPropertyChanged();
             }
         }
@@ -54,6 +57,24 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             }
         }
 
+        public RelayCommand<object> ShowModules
+        {
+            get
+            {
+                return _showModulesCommand ?? (_showModulesCommand =
+                    new RelayCommand<object>(ShowModulesCommand, o => CanExecuteCommand()));
+            }
+        }
+
+        public RelayCommand<object> ShowThreads
+        {
+            get
+            {
+                return _showThreadsCommand ?? (_showThreadsCommand =
+                    new RelayCommand<object>(ShowThreadsCommand, o => CanExecuteCommand()));
+            }
+        }
+
         #endregion
 
         internal ProcessViewModel()
@@ -61,15 +82,8 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             _processes = new ObservableCollection<MyProcess>(StationManager.ProcessList);
             _tokenSource = new CancellationTokenSource();
             _token = _tokenSource.Token;
-                StartWork();
+            StartWork();
             StationManager.StopThreads += StopWorkingThread;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void StartWork()
@@ -107,7 +121,6 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
         {
             _tokenSource.Cancel();
             _workThread.Join(1000);
-            //_workThread.Abort();
             _workThread = null;
         }
 
@@ -118,6 +131,32 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             //StationManager.Update();
             SelectedProcess = null;
 
+        }
+
+        private void ShowModulesCommand(object o)
+        {
+            try
+            {
+                ModuleView smw = new ModuleView();
+                smw.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error: Modules can't be observed!");
+            }
+        }
+
+        private void ShowThreadsCommand(object o)
+        {
+            try
+            {
+                ThreadView smw = new ThreadView();
+                smw.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error: Threads can't be observed!");
+            }
         }
 
         private bool CanExecuteCommand()

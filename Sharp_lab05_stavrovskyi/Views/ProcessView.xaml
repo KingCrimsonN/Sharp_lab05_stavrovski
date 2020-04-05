@@ -13,10 +13,15 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            
+
         </Grid.ColumnDefinitions>
         <Button Grid.Row="1" Grid.Column="0" Foreground="White" Background="Black"  HorizontalAlignment="Center" Width="150" Content="End Task" Command ="{Binding EndTask}"></Button>
-        <DataGrid Margin="15" SelectionMode="Single" ItemsSource="{Binding Processes, Mode=OneWay}" SelectedItem="{Binding SelectedProcess, Mode=OneWayToSource}" AutoGenerateColumns="False">
+        <Button Grid.Row="1" Grid.Column="1" Foreground="White" Background="Black"  HorizontalAlignment="Center" Width="150" Content="Show Modules" Command ="{Binding ShowModules}"></Button>
+        <Button Grid.Row="1" Grid.Column="2" Foreground="White" Background="Black"  HorizontalAlignment="Center" Width="150" Content="Show Modules" Command ="{Binding ShowThreads}"></Button>
+        <DataGrid Margin="15" Grid.ColumnSpan="4" SelectionMode="Single" ItemsSource="{Binding Processes, Mode=OneWay}" SelectedItem="{Binding SelectedProcess, Mode=OneWayToSource}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=OneWay}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"></DataGridTextColumn>
