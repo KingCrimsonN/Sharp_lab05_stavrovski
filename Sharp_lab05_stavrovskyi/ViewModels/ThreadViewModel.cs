@@ -12,10 +12,6 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
     {
         private ObservableCollection<MyThread> _threads;
 
-        public string ProcessName
-        {
-            get;
-        }
 
         public ObservableCollection<MyThread> Threads
         {
@@ -38,7 +34,6 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
         {
             Threads = new ObservableCollection<MyThread>();
             ObservableCollection<MyThread> temp = new ObservableCollection<MyThread>();
-            ProcessName = process.Name;
             int id = process.ID;
             foreach (ProcessThread thread in process.ThreadCollection)
             {

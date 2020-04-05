@@ -17,7 +17,7 @@ namespace Sharp_lab05_stavrovskyi.Models
             get { return _module.ModuleName; }
         }
 
-        public string Filepath
+        public string FilePath
         {
 
             get

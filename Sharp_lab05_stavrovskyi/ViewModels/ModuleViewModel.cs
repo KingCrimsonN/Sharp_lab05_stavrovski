@@ -13,11 +13,6 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
     {
         private ObservableCollection<MyModule> _modules;
 
-        public string ProcessName
-        {
-            get;
-        }
-
         public ObservableCollection<MyModule> Modules
         {
             get
@@ -39,8 +34,6 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
         {
             Modules = new ObservableCollection<MyModule>();
             ObservableCollection<MyModule> temp = new ObservableCollection<MyModule>();
-            ProcessName = process.Name;
-            int id = process.ID;
             foreach (ProcessModule module in process.ModuleCollection)
             {
                 temp.Add(new MyModule(module));
