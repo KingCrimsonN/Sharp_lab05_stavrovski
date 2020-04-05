@@ -40,7 +40,7 @@ namespace Sharp_lab05_stavrovskyi.Models
 
         public int ID
         {
-            get { return _id; }
+            get { return _process.Id; }
         }
 
         public string Name
@@ -54,19 +54,19 @@ namespace Sharp_lab05_stavrovskyi.Models
             get { return _user; }
         }
 
-        public double CPU
+        public double Cpu
         {
             get { return Math.Round((_pCounter.NextValue() / Environment.ProcessorCount)*100,2); }
         }
 
-        public double RAM
+        public double Ram
         {
-            get { return _ram; }
+            get { return (float)Math.Round((double)_process.PrivateMemorySize64 / 1024 / 1024, 2); }
         }
 
         public int Threads
         {
-            get { return _threads; }
+            get { return _process.Threads.Count; }
         }
 
         public DateTime StartTime
@@ -84,10 +84,10 @@ namespace Sharp_lab05_stavrovskyi.Models
         internal MyProcess(Process pr)
         {
             _process = pr;
-            Update();
+            Init();
         }
 
-        public async void Update()
+        private async void Init()
         {
             //_pCounter.NextValue();
             await Task.Run((() => {
@@ -95,14 +95,13 @@ namespace Sharp_lab05_stavrovskyi.Models
                 _pCounter = new PerformanceCounter("Process", "% Processor Time", _name);
                 _pCounter.NextValue();
                 _filePath = _process.MainModule.FileName;
-                _id = _process.Id;
+                //_id = _process.Id;
             }));
-            _threads = _process.Threads.Count;
+            //_threads = _process.Threads.Count;
             _isActive = _process.Responding;
-            _ram = (float)Math.Round((double)(_process.PrivateMemorySize64/1024/1024),2);
+            //_ram = (float)Math.Round((double)(_process.PrivateMemorySize64/1024/1024),2);
             _startTime = _process.StartTime;
             _user = GetUser(_process);
-
         }
 
         private static string GetUser(Process process)

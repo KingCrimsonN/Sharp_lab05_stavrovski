@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Sharp_lab05_stavrovskyi.Models;
+using Sharp_lab05_stavrovskyi.Tools;
 using Sharp_lab05_stavrovskyi.Tools.Managers;
 
 namespace Sharp_lab05_stavrovskyi.ViewModels
@@ -17,6 +19,7 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
         private readonly CancellationToken _token;
         private readonly CancellationTokenSource _tokenSource;
 
+        private RelayCommand<object> _endTask;
         #endregion
 
         #region Properties
@@ -36,8 +39,18 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             get { return _selectedProcess; }
             set
             {
+
                 _selectedProcess = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand<object> EndTask
+        {
+            get
+            {
+                return _endTask ?? (_endTask = new RelayCommand<object>(EndCommand, o => CanExecuteCommand()));
+
             }
         }
 
@@ -96,6 +109,15 @@ namespace Sharp_lab05_stavrovskyi.ViewModels
             _workThread.Join(1000);
             //_workThread.Abort();
             _workThread = null;
+        }
+
+        private void EndCommand(object o)
+        {
+            _selectedProcess?.Process?.Kill();
+            StationManager.RemoveProcess(_selectedProcess);
+            //StationManager.Update();
+            SelectedProcess = null;
+
         }
 
         private bool CanExecuteCommand()

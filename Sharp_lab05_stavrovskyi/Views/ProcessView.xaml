@@ -15,10 +15,19 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="1" Grid.Column="0" Foreground="White" Background="Black"  HorizontalAlignment="Center" Width="150" Content="Return" Command ="{Binding ReturnCommand}"></Button>
-        <DataGrid Margin="15" SelectionMode="Single" ItemsSource="{Binding Processes, Mode=OneWay}" AutoGenerateColumns="True">
+        <Button Grid.Row="1" Grid.Column="0" Foreground="White" Background="Black"  HorizontalAlignment="Center" Width="150" Content="End Task" Command ="{Binding EndTask}"></Button>
+        <DataGrid Margin="15" SelectionMode="Single" ItemsSource="{Binding Processes, Mode=OneWay}" SelectedItem="{Binding SelectedProcess, Mode=OneWayToSource}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <!--<DataGridTextColumn Header="ID" Binding="{Binding Guid, Mode=OneWay}"></DataGridTextColumn>-->
+                <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive, Mode=OneWay}"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Header="CPU" Binding="{Binding Cpu, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="RAM" Binding="{Binding Ram, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="User" Binding="{Binding User, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Threads" Binding="{Binding Threads, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="File Path" Binding="{Binding FilePath, Mode=OneWay}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

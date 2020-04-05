@@ -29,11 +29,10 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
 
         internal static void Initialize()
         {
-
             _processList = new List<MyProcess>();
-            foreach (Process process in Process.GetProcesses())
+            Process[] p = Process.GetProcesses();
+            foreach (Process process in p)
             {
-                //Debug.WriteLine("WRITETEITHEITHEIHTIHETHIETIHEHTIEHTIEHITHIEHITHEIH");
                 if (!_deniedList.Contains(process.Id) && CheckModule(process))
                 {
                     _processList.Add(new MyProcess(process));
@@ -49,6 +48,7 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
 
         private static void AddProcesses()
         {
+            //_processList = new List<MyProcess>();
             Process[] p = Process.GetProcesses();
             foreach (var process in p)
             {
@@ -63,10 +63,17 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
 
         private static bool HasProcess(int id)
         {
+            MyProcess temp;
             try
             {
                 foreach (MyProcess item in _processList)
                 {
+                    if (item.Process.HasExited)
+                    {
+                        _processList.Remove(item);
+                        continue;
+                    }
+
                     if (id == item.ID)
                     {
                         return true;
@@ -77,9 +84,7 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
             }
             catch (InvalidOperationException)
             {
-                MessageBox.Show("HasProcessError" + id);
-                return true;
-
+                return false;
             }
         }
 
@@ -93,8 +98,6 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
             catch (Win32Exception e)
             {
                 _deniedList.Add(process.Id);
-                Debug.WriteLine("ID : " + process.Id);
-                //Console.WriteLine("WIN32EXFCEPTIONS");
                 return false;
             }
             catch (System.InvalidOperationException)
@@ -103,6 +106,11 @@ namespace Sharp_lab05_stavrovskyi.Tools.Managers
                 return false;
             }
 
+        }
+
+        public static void RemoveProcess(MyProcess p)
+        {
+            _processList.Remove(p);
         }
 
         internal static void CloseApp()
